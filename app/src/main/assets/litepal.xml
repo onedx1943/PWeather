@@ -1,0 +1,11 @@
+<litepal>
+    <dbname value="home_weather" />
+
+    <version value="1" />
+
+    <list>
+        <mapping class="com.example.onedx.homeweather.db.Province" />
+        <mapping class="com.example.onedx.homeweather.db.City" />
+        <mapping class="com.example.onedx.homeweather.db.County" />
+    </list>
+</litepal>
