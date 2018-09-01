@@ -75,9 +75,26 @@ public class ChooseAreaFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                if(currentLevel == LEVEL_PROVINCE){
+                    selectedProvince = provinceList.get(position);
+                    queryCities();
+                } else if(currentLevel == LEVEL_CITY){
+                    selectedCity = cityList.get(position);
+                    queryCounties();
+                }
             }
         });
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(currentLevel == LEVEL_COUNTY){
+                    queryCities();
+                } else if(currentLevel == LEVEL_CITY){
+                    queryProvinces();
+                }
+            }
+        });
+        queryProvinces();
     }
 
     /**
@@ -201,7 +218,7 @@ public class ChooseAreaFragment extends Fragment {
      * 显示进度对话框
      */
     private void showProgressDialog(){
-        if(progressDialog != null){
+        if(progressDialog == null){
             progressDialog = new ProgressDialog(getActivity());
             progressDialog.setMessage("正在加载...");
             progressDialog.setCanceledOnTouchOutside(false);
