@@ -23,7 +23,7 @@
 
             <include layout="@layout/now" />
 
-            <include layout="@layout/hourly" />
+            <!--<include layout="@layout/hourly" />-->
 
             <include layout="@layout/forecast" />
 

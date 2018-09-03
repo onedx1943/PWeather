@@ -5,11 +5,15 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.onedx.homeweather.gson.Forecast;
+import com.example.onedx.homeweather.gson.LifeStyle;
 import com.example.onedx.homeweather.gson.Weather;
 import com.example.onedx.homeweather.util.HttpUtil;
 import com.example.onedx.homeweather.util.Utility;
@@ -17,6 +21,7 @@ import com.example.onedx.homeweather.util.Utility;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -32,6 +37,9 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView titleCity;
     private TextView titleUpdateTime;
     private TextView degreeText;
+    private TextView weatherInfoText;
+    private LinearLayout forecastLayout;
+    private LinearLayout lifestyleLayout;
 
     private static final String USERNAME = "HE1808302218131363";
     private static final String HEWEATHER_KEY = "34761625bab849509d4ed6f7b8ab118a";
@@ -44,8 +52,9 @@ public class WeatherActivity extends AppCompatActivity {
         titleCity = (TextView) findViewById(R.id.title_city);
         titleUpdateTime = (TextView) findViewById(R.id.title_update_time);
         degreeText = (TextView) findViewById(R.id.degree_text);
-        //todo
-
+        weatherInfoText = (TextView) findViewById(R.id.weather_info_text);
+        forecastLayout = (LinearLayout) findViewById(R.id.forecast_layout);
+        lifestyleLayout = (LinearLayout) findViewById(R.id.lifestyle_layout);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String weatherString = prefs.getString("weather", null);
         if(weatherString != null){
@@ -77,6 +86,7 @@ public class WeatherActivity extends AppCompatActivity {
                 "&username=" + USERNAME +
                 "&t=" + t +
                 "&sign=" + key;
+        //System.out.print("++++++++++++++++++++++++++++++++++" + weatherUrl);
         HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
@@ -86,7 +96,6 @@ public class WeatherActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if(weather != null && "ok".equals(weather.status)){
-                            //todo
                             SharedPreferences.Editor editor =
                                     PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
                             editor.putString("weather", responseText);
@@ -94,7 +103,7 @@ public class WeatherActivity extends AppCompatActivity {
                             showWeatherInfo(weather);
                         }else {
                             Toast.makeText(WeatherActivity.this,
-                                    "获取天气信息失败", Toast.LENGTH_SHORT).show();
+                                    "status false", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -122,11 +131,39 @@ public class WeatherActivity extends AppCompatActivity {
         //todo
         String cityName = weather.basic.cityName;
         String updateTime = weather.update.locationTime;
-        String degree = weather.now.Condition;
+        String degree = weather.now.fl + "℃";
+        String weatherInfo = weather.now.Condition;
         titleCity.setText(cityName);
         titleUpdateTime.setText(updateTime);
         degreeText.setText(degree);
-
+        weatherInfoText.setText(weatherInfo);
+        forecastLayout.removeAllViews();
+        for(Forecast forecast : weather.forecastList){
+            View view = LayoutInflater.from(this).inflate(
+                    R.layout.forecast_item, forecastLayout, false);
+            TextView dateText = (TextView) view.findViewById(R.id.date_text);
+            TextView infoText = (TextView) view.findViewById(R.id.info_text);
+            TextView maxText = (TextView) view.findViewById(R.id.max_text);
+            TextView minText = (TextView) view.findViewById(R.id.min_text);
+            dateText.setText(forecast.date);
+            infoText.setText(forecast.dayCondition);
+            maxText.setText(forecast.maxTemperature);
+            minText.setText(forecast.minTemperature);
+            forecastLayout.addView(view);
+        }
+        lifestyleLayout.removeAllViews();
+        for(LifeStyle lifeStyle : weather.lifeStyleList){
+            View view = LayoutInflater.from(this).inflate(
+                    R.layout.lifestyle_item, lifestyleLayout, false);
+            TextView comfort = (TextView) view.findViewById(R.id.comfort);
+            TextView comfortText = (TextView) view.findViewById(R.id.comfort_text);
+            String type = getLifestyleType(lifeStyle.type);
+            if(!"".equals(type)){
+                comfort.setText(type + "：" + lifeStyle.comfort);
+                comfortText.setText(lifeStyle.info);
+                lifestyleLayout.addView(view);
+            }
+        }
         weatherLayout.setVisibility(View.VISIBLE);
     }
 
@@ -167,6 +204,43 @@ public class WeatherActivity extends AppCompatActivity {
         } catch (GeneralSecurityException ex) {
             throw new IOException(ex);
         }
+    }
+
+    private String getLifestyleType(String type){
+        if("comf".equals(type)){
+            return "舒适度指数";
+        }else if("cw".equals(type)){
+            return "洗车指数";
+        }else if("drsg".equals(type)){
+            return "穿衣指数";
+        }else if("flu".equals(type)){
+            return "感冒指数";
+        }else if("sport".equals(type)){
+            return "运动指数";
+        }else if("trav".equals(type)){
+            return "旅游指数";
+        }else if("uv".equals(type)){
+            return "紫外线指数";
+        }else if("air".equals(type)){
+            return "空气污染扩散条件指数";
+        }else if("ac".equals(type)){
+            return "空调开启指数";
+        }else if("ag".equals(type)){
+            return "过敏指数";
+        }else if("gl".equals(type)){
+            return "太阳镜指数";
+        }else if("mu".equals(type)){
+            return "化妆指数";
+        }else if("airc".equals(type)){
+            return "晾晒指数";
+        }else if("ptfc".equals(type)){
+            return "交通指数";
+        }else if("fisin".equals(type)){
+            return "钓鱼指数";
+        }else if("spi".equals(type)){
+            return "防晒指数";
+        }
+        return "";
     }
 
 
