@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.example.onedx.homeweather.db.City;
 import com.example.onedx.homeweather.db.County;
 import com.example.onedx.homeweather.db.Province;
+import com.example.onedx.homeweather.gson.BingPic;
 import com.example.onedx.homeweather.gson.Weather;
 import com.google.gson.Gson;
 
@@ -93,6 +94,23 @@ public class Utility {
             JSONArray jsonArray = jsonObject.getJSONArray("HeWeather6");
             String weatherContent = jsonArray.getJSONObject(0).toString();
             return new Gson().fromJson(weatherContent, Weather.class);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 获取Bing每日一图的Url
+     * @param response
+     * @return
+     */
+    public static BingPic handleBingPicResponse(String response){
+        try{
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONArray("images");
+            String images = jsonArray.getJSONObject(0).toString();
+            return new Gson().fromJson(images, BingPic.class);
         }catch (Exception e){
             e.printStackTrace();
         }
