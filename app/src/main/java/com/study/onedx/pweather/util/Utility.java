@@ -1,12 +1,12 @@
-package com.example.onedx.homeweather.util;
+package com.study.onedx.pweather.util;
 
 import android.text.TextUtils;
 
-import com.example.onedx.homeweather.db.City;
-import com.example.onedx.homeweather.db.County;
-import com.example.onedx.homeweather.db.Province;
-import com.example.onedx.homeweather.gson.BingPic;
-import com.example.onedx.homeweather.gson.Weather;
+import com.study.onedx.pweather.db.City;
+import com.study.onedx.pweather.db.County;
+import com.study.onedx.pweather.db.Province;
+import com.study.onedx.pweather.gson.BingPic;
+import com.study.onedx.pweather.gson.Weather;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;

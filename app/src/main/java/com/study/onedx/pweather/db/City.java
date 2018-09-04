@@ -1,4 +1,4 @@
-package com.example.onedx.homeweather.db;
+package com.study.onedx.pweather.db;
 
 import org.litepal.crud.DataSupport;
 

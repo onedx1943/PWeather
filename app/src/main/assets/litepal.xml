@@ -4,8 +4,8 @@
     <version value="1" />
 
     <list>
-        <mapping class="com.example.onedx.homeweather.db.Province" />
-        <mapping class="com.example.onedx.homeweather.db.City" />
-        <mapping class="com.example.onedx.homeweather.db.County" />
+        <mapping class="com.study.onedx.pweather.db.Province" />
+        <mapping class="com.study.onedx.pweather.db.City" />
+        <mapping class="com.study.onedx.pweather.db.County" />
     </list>
 </litepal>

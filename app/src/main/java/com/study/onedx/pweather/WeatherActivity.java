@@ -1,4 +1,4 @@
-package com.example.onedx.homeweather;
+package com.study.onedx.pweather;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -20,17 +20,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.onedx.homeweather.gson.BingPic;
-import com.example.onedx.homeweather.gson.Forecast;
-import com.example.onedx.homeweather.gson.LifeStyle;
-import com.example.onedx.homeweather.gson.Weather;
-import com.example.onedx.homeweather.util.HttpUtil;
-import com.example.onedx.homeweather.util.Utility;
+import com.example.onedx.homeweather.R;
+import com.study.onedx.pweather.gson.BingPic;
+import com.study.onedx.pweather.gson.Forecast;
+import com.study.onedx.pweather.gson.LifeStyle;
+import com.study.onedx.pweather.gson.Weather;
+import com.study.onedx.pweather.util.HttpUtil;
+import com.study.onedx.pweather.util.Utility;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -94,6 +94,7 @@ public class WeatherActivity extends AppCompatActivity {
             Weather weather = Utility.handleWeatherResponse(weatherString);
             weatherId = weather.basic.cityId;
             showWeatherInfo(weather);
+            requestWeather(weatherId);
         }else {
             weatherId = getIntent().getStringExtra("weather_id");
             weatherLayout.setVisibility(View.INVISIBLE);

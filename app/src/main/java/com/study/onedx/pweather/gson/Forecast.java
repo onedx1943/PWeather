@@ -1,15 +1,20 @@
-package com.example.onedx.homeweather.gson;
+package com.study.onedx.pweather.gson;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Now {
-    //天气状况描述
-    @SerializedName("cond_txt")
-    public String Condition;
+public class Forecast {
 
-    //体感温度，默认单位：摄氏度
-    @SerializedName("fl")
-    public String fl;
+    //预报日期
+    @SerializedName("date")
+    public String date;
+
+    //白天天气状况描述
+    @SerializedName("cond_txt_d")
+    public String dayCondition;
+
+    //晚间天气状况描述
+    @SerializedName("cond_txt_n")
+    public String nightCondition;
 
     //相对湿度
     @SerializedName("hum")
@@ -19,13 +24,25 @@ public class Now {
     @SerializedName("pcpn")
     public String Precipitation;
 
+    //降水概率
+    @SerializedName("pop")
+    public String pcpnProbability;
+
     //大气压强
     @SerializedName("pres")
     public String atmosphericPressure;
 
-    //温度
-    @SerializedName("tmp")
-    public String temperature;
+    //最高温度
+    @SerializedName("tmp_max")
+    public String maxTemperature;
+
+    //最低温度
+    @SerializedName("tmp_min")
+    public String minTemperature;
+
+    //紫外线强度指数
+    @SerializedName("uv_index")
+    public String UVIntensity;
 
     //能见度，单位：公里
     @SerializedName("vis")
@@ -46,4 +63,5 @@ public class Now {
     //风速，公里/小时
     @SerializedName("wind_spd")
     public String windSpeed;
+
 }

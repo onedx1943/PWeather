@@ -1,4 +1,4 @@
-package com.example.onedx.homeweather;
+package com.study.onedx.pweather;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -16,11 +16,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.onedx.homeweather.db.City;
-import com.example.onedx.homeweather.db.County;
-import com.example.onedx.homeweather.db.Province;
-import com.example.onedx.homeweather.util.HttpUtil;
-import com.example.onedx.homeweather.util.Utility;
+import com.example.onedx.homeweather.R;
+import com.study.onedx.pweather.db.City;
+import com.study.onedx.pweather.db.County;
+import com.study.onedx.pweather.db.Province;
+import com.study.onedx.pweather.util.HttpUtil;
+import com.study.onedx.pweather.util.Utility;
 
 import org.litepal.crud.DataSupport;
 

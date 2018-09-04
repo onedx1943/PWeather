@@ -1,4 +1,4 @@
-package com.example.onedx.homeweather.gson;
+package com.study.onedx.pweather.gson;
 
 import com.google.gson.annotations.SerializedName;
 

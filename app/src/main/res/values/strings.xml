@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HomeWeather</string>
-    <string name="forecast">预报</string>
+    <string name="app_name">PWeather</string>
+    <string name="forecast">天气预报</string>
     <string name="lifeStyle">生活建议</string>
 </resources>

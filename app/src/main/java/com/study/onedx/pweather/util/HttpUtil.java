@@ -1,6 +1,5 @@
-package com.example.onedx.homeweather.util;
+package com.study.onedx.pweather.util;
 
-import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
