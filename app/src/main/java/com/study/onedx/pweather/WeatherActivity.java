@@ -55,6 +55,8 @@ public class WeatherActivity extends AppCompatActivity {
     private LinearLayout lifestyleLayout;
     private ImageView bingPic;
 
+    private String weatherId;
+
     private static final String USERNAME = "HE1808302218131363";
     private static final String HEWEATHER_KEY = "34761625bab849509d4ed6f7b8ab118a";
 
@@ -89,12 +91,13 @@ public class WeatherActivity extends AppCompatActivity {
         }else {
             loadBingPic();
         }
-        final String weatherId;
+        //final String weatherId;
         if(weatherString != null){
             Weather weather = Utility.handleWeatherResponse(weatherString);
             weatherId = weather.basic.cityId;
             showWeatherInfo(weather);
-            requestWeather(weatherId);
+            //this.swipeRefresh.setRefreshing(true);
+            //requestWeather(weatherId);
         }else {
             weatherId = getIntent().getStringExtra("weather_id");
             weatherLayout.setVisibility(View.INVISIBLE);
@@ -103,7 +106,12 @@ public class WeatherActivity extends AppCompatActivity {
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                requestWeather(weatherId);
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this);
+                String weatherString = prefs.getString("weather", null);
+                if(weatherString != null){
+                    weatherId = Utility.handleWeatherResponse(weatherString).basic.cityId;
+                    requestWeather(weatherId);
+                }
             }
         });
         setIdButton.setOnClickListener(new View.OnClickListener() {
@@ -117,10 +125,10 @@ public class WeatherActivity extends AppCompatActivity {
     /**
      * 根据id请求城市天气信息
      */
-    public void requestWeather(final String weatherId){
+    public void requestWeather(String cityId){
         long t = System.currentTimeMillis();
         HashMap dictionary = new HashMap();
-        dictionary.put("location", weatherId);
+        dictionary.put("location", cityId);
         dictionary.put("username", USERNAME);
         dictionary.put("t", t);
         String key = null;
@@ -130,7 +138,7 @@ public class WeatherActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         String weatherUrl = "https://free-api.heweather.com/s6/weather?" +
-                "location=" + weatherId +
+                "location=" + cityId +
                 "&username=" + USERNAME +
                 "&t=" + t +
                 "&sign=" + key;
