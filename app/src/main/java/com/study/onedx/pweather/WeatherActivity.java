@@ -96,8 +96,8 @@ public class WeatherActivity extends AppCompatActivity {
             Weather weather = Utility.handleWeatherResponse(weatherString);
             weatherId = weather.basic.cityId;
             showWeatherInfo(weather);
-            //this.swipeRefresh.setRefreshing(true);
-            //requestWeather(weatherId);
+            this.swipeRefresh.setRefreshing(true);
+            requestWeather(weatherId);
         }else {
             weatherId = getIntent().getStringExtra("weather_id");
             weatherLayout.setVisibility(View.INVISIBLE);

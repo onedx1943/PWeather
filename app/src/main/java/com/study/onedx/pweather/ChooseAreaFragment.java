@@ -2,7 +2,9 @@ package com.study.onedx.pweather;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -68,6 +70,10 @@ public class ChooseAreaFragment extends Fragment {
         listView = (ListView) view.findViewById(R.id.list_view);
         adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, dataList);
         listView.setAdapter(adapter);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        currentLevel = prefs.getInt("currentLevel", 0);
+        selectedProvince = Utility.getObject(getActivity(), Province.class);
+        selectedCity = Utility.getObject(getActivity(), City.class);
         return view;
     }
 
@@ -96,6 +102,13 @@ public class ChooseAreaFragment extends Fragment {
                         activity.swipeRefresh.setRefreshing(true);
                         activity.requestWeather(weatherId);
                     }
+                    SharedPreferences.Editor editor =
+                            PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
+                    editor.putInt("currentLevel", LEVEL_COUNTY);
+                    editor.apply();
+                    Utility.putObject(getActivity(), selectedProvince);
+                    Utility.putObject(getActivity(), selectedCity);
+
                 }
             }
         });
@@ -109,7 +122,12 @@ public class ChooseAreaFragment extends Fragment {
                 }
             }
         });
-        queryProvinces();
+        if(currentLevel == 0){
+            queryProvinces();
+        } else if(currentLevel == 2){
+            queryCounties();
+        }
+
     }
 
     /**
